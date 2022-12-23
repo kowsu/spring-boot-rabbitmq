@@ -17,9 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Configuration
 public class RabbitMqConfig {
@@ -47,10 +45,11 @@ public class RabbitMqConfig {
     }
 
     @Bean
-    public List<Queue> queues() {
-        return Arrays.stream(amqpProperties.getFanOut().getQueueName().split(","))
+    public Declarables queues() {
+        return new Declarables(Arrays.stream(amqpProperties.getFanOut().getQueueName().split(","))
                 .map(q -> new Queue(q, false, false, true))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList())
+                .toArray(new Queue[0]));
     }
 
     @Bean

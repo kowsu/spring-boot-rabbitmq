@@ -12,12 +12,10 @@ public class RabbitMessageListener {
         System.out.println("Direct Received " + new String(message.getBody()));
     }
 
-    @RabbitListener(queues = "${rk.amqp.fanOut.queue-name}")
+    @RabbitListener(queues = "#{'${rk.amqp.fanOut.queue-name}'.split(',')}")
     public void fanOutMessageListener(Message message) {
-        System.out.println("FanOut Received " + new String(message.getBody()));
+        System.out.println("FanOut Received " + new String(message.getBody()) + " Queue " + message.getMessageProperties().getConsumerQueue());
     }
-    @RabbitListener(queues = "electronics-fanOut-queue1")
-    public void fanOut1MessageListener(Message message) {
-        System.out.println("FanOut1 Received " + new String(message.getBody()));
-    }
+
+
 }
