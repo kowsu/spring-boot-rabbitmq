@@ -4,3 +4,22 @@ spring:
     port: 5672
     username: guest
     password: guest
+
+rk:
+  amqp:
+    direct:
+      exchange-name: "product-direct-exchange"
+      queue-name: "electronics-direct-queue"
+      routing-key: "electronics-direct"
+    topic:
+      exchange-name: "product-topic-exchange"
+      queue-name: "electronics-topic-queue"
+      routing-key: "electronics-topic"
+    fanOut:
+      exchange-name: "product-fanOut-exchange"
+      queue-name: "electronics-fanOut-queue,electronics-fanOut-queue1,electronics-fanOut-queue2"
+      routing-key: "electronics-fanOut"
+    header:
+      exchange-name: "product-header-exchange"
+      queue-name: "electronics-header-queue"
+      routing-key: "electronics-header"

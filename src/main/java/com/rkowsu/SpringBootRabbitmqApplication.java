@@ -1,13 +1,26 @@
 package com.rkowsu;
 
+import com.rkowsu.producer.RabbitMessageProducer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringBootRabbitmqApplication {
+public class SpringBootRabbitmqApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringBootRabbitmqApplication.class, args);
-	}
+    @Autowired
+    private RabbitMessageProducer rabbitMessageProducer;
 
+    public static void main(String[] args) {
+        SpringApplication.run(SpringBootRabbitmqApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        for (int i = 0; i < 100; i++) {
+            rabbitMessageProducer.directExchange();
+            rabbitMessageProducer.fanOutExchange();
+        }
+    }
 }
