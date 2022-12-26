@@ -1,4 +1,4 @@
 package com.rkowsu.config.properties;
 
-public class Header extends MessageProperties{
+public class Header extends EventProperties {
 }

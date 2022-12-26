@@ -1,4 +1,4 @@
 package com.rkowsu.config.properties;
 
-public class FanOut extends MessageProperties{
+public class FanOut extends EventProperties {
 }

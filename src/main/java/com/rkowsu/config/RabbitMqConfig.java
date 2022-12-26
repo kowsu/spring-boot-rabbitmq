@@ -8,6 +8,7 @@ import org.springframework.amqp.core.Declarables;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -76,5 +77,41 @@ public class RabbitMqConfig {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(jsonMessageConverter());
         return rabbitTemplate;
+    }
+
+    @Bean
+    public DirectExchange abnormalExchange() {
+        return new DirectExchange("abnormal-exchange");
+    }
+
+    @Bean
+    public DirectExchange dlqEchange() {
+        return new DirectExchange("dlq-exchange");
+    }
+
+    @Bean
+    public Queue dlq() {
+        return new Queue("dlq");
+    }
+
+
+    @Bean
+    public Queue abnormalQueue() {
+        return QueueBuilder.durable("abnormal-queue")
+                .withArgument("x-dead-letter-exchange", "dlq-exchange")
+                .withArgument("x-dead-letter-routing-key", "deadLetter")
+                .build();
+    }
+
+    @Bean
+    public Binding abnormalBinding() {
+        return BindingBuilder.bind(abnormalQueue()).to(abnormalExchange())
+                .with("abnormal-routing-key");
+    }
+
+
+    @Bean
+    public Binding dlqBinding() {
+        return BindingBuilder.bind(dlq()).to(dlqEchange()).with("deadLetter");
     }
 }

@@ -18,9 +18,13 @@ public class SpringBootRabbitmqApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for (int i = 0; i < 100; i++) {
-            rabbitMessageProducer.directExchange();
-            rabbitMessageProducer.fanOutExchange();
-        }
+//        for (int i = 0; i < 100; i++) {
+            //Enable to test direct and fanOut, topic exchange model
+            //rabbitMessageProducer.directExchange();
+            //rabbitMessageProducer.fanOutExchange();
+//            rabbitMessageProducer.topicExchange();
+//            rabbitMessageProducer.headerExchange();
+            rabbitMessageProducer.deadLetterExchange();
+//        }
     }
 }

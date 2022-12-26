@@ -16,6 +16,11 @@ public class RabbitMessageListener {
     public void fanOutMessageListener(Message message) {
         System.out.println("FanOut Received " + new String(message.getBody()) + " Queue " + message.getMessageProperties().getConsumerQueue());
     }
+    @RabbitListener(queues = "abnormal-queue")
+    public void dlqListener(Message message) {
+        System.out.println("DLQ Received " + new String(message.getBody()) + " Queue " + message.getMessageProperties().getConsumerQueue());
+        throw new RuntimeException("Abnormal Exception");
+    }
 
 
 }
